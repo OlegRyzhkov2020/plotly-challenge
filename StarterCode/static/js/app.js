@@ -1,34 +1,47 @@
-// Read json data
-function unpack(rows, index) {
-  return rows.map(function(row) {
-    return row[index];
-  });
-}
 
 d3.json("samples.json").then(function(data) {
-
+  let sel_id = "selDataset";
   let metaData = data['metadata'];
-  let samplesData = data['samples'];
-  var i;
-  console.log(metaData);
-  let id = "selDataset";
-  initDropdownList(id, metaData);
+  //console.log(metaData, samplesData);
+  initDropdownList(sel_id, metaData);
+});
 
-  document.getElementById(id).addEventListener('change', function() {
-  id_value = this.value;
-  console.log('You selected: ', id_value);
-  for (i in metaData) {
-    if (metaData[i]['id'] == id_value) {
-      console.log (id_value, metaData[i]['id'], metaData[i]['ethnicity'], metaData[i]['gender']);
-    }
+function optionChanged (select_value) {
+    alert ("The selected option is " + select_value);
+    d3.json("samples.json").then(function(data) {
+      let sel_id = "selDataset";
+      let info_id = "sample-metadata";
+      let metaData = data['metadata'];
+      let samplesData = data['samples'];
+      var i, id_value;
+      //console.log(metaData, samplesData);
+      for (i in metaData) {
+          if (metaData[i]['id'] == select_value) {
+              buildTable(metaData[i])
+              //console.log (id_value, metaData[i]['id'], metaData[i]['ethnicity'], metaData[i]['gender']);
+              }
+          }
+      });
+};
+
+function buildTable(dates) {
+  var table = d3.select("#summary-table");
+  var tbody = table.select("tbody");
+  // remove any children from the tbody to
+  tbody.html("");
+
+  var trow, idx, key, dict_length;
+  dict_length = Object.keys(dates).length
+  console.log (dates, dict_length);
+
+  for (idx = 0; idx < dict_length; idx++) {
+    key = Object.keys(dates)[idx];
+    value = dates[key];
+    trow = tbody.append("tr");
+    trow.append("td").text(key);
+    trow.append("td").text(value);
   }
-});
-  //var otu_ids = data['samples'][0]['otu_ids'];
-  //var otu_values = data['samples'][0]['sample_values'];
-
-
-});
-
+}
 
 function initDropdownList( id, data ) {
     var select, i, option;
@@ -39,7 +52,3 @@ function initDropdownList( id, data ) {
         select.add( option );
     }
 };
-
-function optionChanged (select_value) {
-            alert ("The selected option is " + select_value);
-        };
