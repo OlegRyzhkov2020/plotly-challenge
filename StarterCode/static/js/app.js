@@ -31,16 +31,29 @@ function optionChanged (select_value) {
 
 function buildPlot(data_labels, data_values, text_values) {
   var top_values, top_labels, top_text_values;
-  var otu_ids = data_labels;
-  console.log("OTU data", otu_ids, data_labels);
+  var otu_ids = data_labels.slice();
+
   var myText = 'My text';
-  //for(var i = 0; i < otu_ids.length; i += 1){
-    //otu_ids[i] = 'OTU ' + otu_ids[i];
-  //}
-  console.log("Updated OTU data", otu_ids);
-  top_values = data_values.sort((a, b) => b - a).slice(0, 10);
-  top_labels = otu_ids.slice(0, 10);
-  top_text_values = text_values.slice(0, 10);
+  for(var i = 0; i < otu_ids.length; i += 1){
+    otu_ids[i] = 'OTU ' + otu_ids[i];
+  }
+  console.log("Updated OTU data", otu_ids, data_labels);
+  var array = []
+  for (i=0; i<data_values.length; i++) {
+    array.push([otu_ids[i], data_values[i], text_values[i]])
+  }
+  console.log(array);
+  top_array = array.sort((a,b) => b[1]-a[1]).slice(0, 10).reverse();
+
+  top_values = [];
+  top_labels = [];
+  top_text_values = [];
+  for (i=0; i<top_array.length; i++) {
+    top_labels.push(top_array[i][0]);
+    top_values.push(top_array[i][1]);
+    top_text_values.push(top_array[i][2]);
+  }
+  console.log(top_labels, top_values, top_text_values);
 
   var data = [{
     x: top_values,
@@ -61,26 +74,63 @@ function buildPlot(data_labels, data_values, text_values) {
   var trace1 = {
     x: data_labels,
     y: data_values,
+    text: text_values,
     mode: 'markers',
     marker: {
-      color: ['hsl(0,100,40)', 'hsl(33,100,40)', 'hsl(66,100,40)', 'hsl(99,100,40)'],
+      color: data_labels,
       size: data_values,
       opacity: [0.6, 0.7, 0.8, 0.9]
       }
     };
-  console.log("trace1 x data", data_labels);
+  var bubble_data = [trace1];
   console.log("Trace1", trace1);
-  var buble_data = [trace1];
-  console.log("Buble chart", buble_data);
+  console.log("Bubble chart", bubble_data);
 
-  var buble_layout = {
+  var bubble_layout = {
     title: 'Marker Size',
     showlegend: false,
     height: 500,
     width: 800
   };
 
-  Plotly.newPlot('bubble', buble_data, buble_layout);
+  Plotly.newPlot('bubble', bubble_data, bubble_layout);
+
+  var gauge_data = [
+  {
+    type: "indicator",
+    mode: "gauge+number+delta",
+    value: 420,
+    title: { text: "Speed", font: { size: 24 } },
+    delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
+    gauge: {
+      axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
+      bar: { color: "darkblue" },
+      bgcolor: "white",
+      borderwidth: 2,
+      bordercolor: "gray",
+      steps: [
+        { range: [0, 250], color: "cyan" },
+        { range: [250, 400], color: "royalblue" }
+      ],
+      threshold: {
+        line: { color: "red", width: 4 },
+        thickness: 0.75,
+        value: 490
+      }
+      }
+    }
+  ];
+
+  var gauge_layout = {
+    width: 500,
+    height: 400,
+    margin: { t: 25, r: 25, l: 25, b: 25 },
+    paper_bgcolor: "lavender",
+    font: { color: "darkblue", family: "Arial" }
+  };
+
+  Plotly.newPlot('gauge', gauge_data, gauge_layout);
+
 };
 
 function buildTable(dates) {
