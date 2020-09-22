@@ -20,7 +20,9 @@ function optionChanged (select_value) {
       //console.log(metaData, samplesData);
       for (i in metaData) {
           if (metaData[i]['id'] == select_value) {
-              buildTable(metaData[i])
+              buildTable(metaData[i]);
+              buildPlot(samplesData[i]['otu_ids'], samplesData[i]['sample_values'],
+                        samplesData[i]['otu_labels']);
               //console.log (id_value, metaData[i]['id'], metaData[i]['ethnicity'], metaData[i]['gender']);
               }
           }
@@ -29,15 +31,17 @@ function optionChanged (select_value) {
 
 function buildPlot(data_labels, data_values, text_values) {
   var top_values, top_labels, top_text_values;
+  var otu_ids = data_labels;
+  console.log("OTU data", otu_ids, data_labels);
   var myText = 'My text';
-  for(var i = 0; i < data_labels.length; i += 1){
-    data_labels[i] = 'OTU ' + data_labels[i];
-  }
-  console.log(data_values, data_labels);
+  //for(var i = 0; i < otu_ids.length; i += 1){
+    //otu_ids[i] = 'OTU ' + otu_ids[i];
+  //}
+  console.log("Updated OTU data", otu_ids);
   top_values = data_values.sort((a, b) => b - a).slice(0, 10);
-  top_labels = data_labels.slice(0, 10);
+  top_labels = otu_ids.slice(0, 10);
   top_text_values = text_values.slice(0, 10);
-  console.log(top_values, data_values.slice(0, 10));
+
   var data = [{
     x: top_values,
     y: top_labels,
@@ -53,6 +57,30 @@ function buildPlot(data_labels, data_values, text_values) {
   };
 
   Plotly.newPlot("bar", data, layout);
+
+  var trace1 = {
+    x: data_labels,
+    y: data_values,
+    mode: 'markers',
+    marker: {
+      color: ['hsl(0,100,40)', 'hsl(33,100,40)', 'hsl(66,100,40)', 'hsl(99,100,40)'],
+      size: data_values,
+      opacity: [0.6, 0.7, 0.8, 0.9]
+      }
+    };
+  console.log("trace1 x data", data_labels);
+  console.log("Trace1", trace1);
+  var buble_data = [trace1];
+  console.log("Buble chart", buble_data);
+
+  var buble_layout = {
+    title: 'Marker Size',
+    showlegend: false,
+    height: 500,
+    width: 800
+  };
+
+  Plotly.newPlot('bubble', buble_data, buble_layout);
 };
 
 function buildTable(dates) {
