@@ -1,4 +1,6 @@
-
+//------------------------------------------------------------------------------
+//Explore dataset for Initial WebPage
+//------------------------------------------------------------------------------
 d3.json("samples.json").then(function(data) {
   let sel_id = "selDataset";
   let metaData = data['metadata'];
@@ -9,7 +11,9 @@ d3.json("samples.json").then(function(data) {
   buildPlot(samplesData[0]['otu_ids'], samplesData[0]['sample_values'],
             samplesData[0]['otu_labels']);
 });
-
+//------------------------------------------------------------------------------
+//ID Selected - Option Changed Event
+//------------------------------------------------------------------------------
 function optionChanged (select_value) {
     alert ("The selected option is " + select_value);
     d3.json("samples.json").then(function(data) {
@@ -28,7 +32,9 @@ function optionChanged (select_value) {
           }
       });
 };
-
+//------------------------------------------------------------------------------
+//Building Plot Function
+//------------------------------------------------------------------------------
 function buildPlot(data_labels, data_values, text_values) {
   var top_values, top_labels, top_text_values;
   var otu_ids = data_labels.slice();
@@ -54,7 +60,9 @@ function buildPlot(data_labels, data_values, text_values) {
     top_text_values.push(top_array[i][2]);
   }
   console.log(top_labels, top_values, top_text_values);
-
+  //------------------------------------------------------------------------------
+  //Bar Chart
+  //------------------------------------------------------------------------------
   var data = [{
     x: top_values,
     y: top_labels,
@@ -65,19 +73,26 @@ function buildPlot(data_labels, data_values, text_values) {
   }];
 
   var layout = {
+    title:'Top 10 Bacteria Cultures Found',
     height: 500,
-    width: 400
+    width: 330
   };
 
   Plotly.newPlot("bar", data, layout);
-
+  //------------------------------------------------------------------------------
+  //Bubble Chart
+  //------------------------------------------------------------------------------
   var trace1 = {
     x: data_labels,
     y: data_values,
     text: text_values,
     mode: 'markers',
     marker: {
-      color: data_labels,
+      color: ['rgb(75,0,130)', 'rgb(138,43,226)', 'rgb(25,25,112)', 'rgb(0,0,128)',
+              'rgb(0,0,139)', 'rgb(0,0,205)', 'rgb(0,0,255)', 'rgb(65,105,225)',
+              'rgb(72,61,139)', 'rgb(106,90,205)', 'rgb(123,104,238)', 'rgb(95,158,160)',
+              'rgb(70,130,180)', 'rgb(0,191,255)', 'rgb(135,206,250)', 'rgb(240,248,255)'
+              ],
       size: data_values,
       opacity: [0.6, 0.7, 0.8, 0.9]
       }
@@ -87,52 +102,58 @@ function buildPlot(data_labels, data_values, text_values) {
   console.log("Bubble chart", bubble_data);
 
   var bubble_layout = {
-    title: 'Marker Size',
+    title: 'Bacteria Cultures per Sample',
     showlegend: false,
     height: 500,
-    width: 800
+    width: 750
   };
 
   Plotly.newPlot('bubble', bubble_data, bubble_layout);
-
+  //------------------------------------------------------------------------------
+  //Gauge Chart
+  //------------------------------------------------------------------------------
+  let speed_value = data_values.length/100*10;
   var gauge_data = [
   {
     type: "indicator",
-    mode: "gauge+number+delta",
-    value: 420,
-    title: { text: "Speed", font: { size: 24 } },
-    delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
+    mode: "gauge+number",
+    value: speed_value,
+    title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
+
     gauge: {
-      axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
-      bar: { color: "darkblue" },
+      axis: { range: [null, 9], tickwidth: 1, tickcolor: "skyblue" },
+      bar: { color: "navy" },
       bgcolor: "white",
       borderwidth: 2,
       bordercolor: "gray",
       steps: [
-        { range: [0, 250], color: "cyan" },
-        { range: [250, 400], color: "royalblue" }
+        { range: [0, 2], color: "aliceblue" },
+        { range: [2, 4], color: "lavender" },
+        { range: [4, 8], color: "powderblue" }
       ],
       threshold: {
         line: { color: "red", width: 4 },
         thickness: 0.75,
-        value: 490
+        value: 9
       }
       }
     }
   ];
 
   var gauge_layout = {
-    width: 500,
-    height: 400,
+    width: 450,
+    height: 420,
     margin: { t: 25, r: 25, l: 25, b: 25 },
-    paper_bgcolor: "lavender",
+    paper_bgcolor: "white",
     font: { color: "darkblue", family: "Arial" }
   };
 
   Plotly.newPlot('gauge', gauge_data, gauge_layout);
 
 };
-
+//------------------------------------------------------------------------------
+//Demographic Info Table
+//------------------------------------------------------------------------------
 function buildTable(dates) {
   var table = d3.select("#summary-table");
   var tbody = table.select("tbody");
@@ -151,7 +172,9 @@ function buildTable(dates) {
     trow.append("td").text(value);
   }
 }
-
+//------------------------------------------------------------------------------
+//Create Selection ID list
+//------------------------------------------------------------------------------
 function initDropdownList( id, data ) {
     var select, i, option;
     select = document.getElementById( id );

@@ -107,8 +107,12 @@ select {
   margin-top: 20px;
 }
 
-.margin-top-20 {
-  margin-top: 20px;
+.margin-top-30 {
+  margin-top: 30px;
+}
+.row h4 {
+  color: navy;
+  font-weight: bold;
 }
 
 /* The styles for the parallax */
