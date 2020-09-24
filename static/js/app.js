@@ -15,7 +15,7 @@ d3.json("samples.json").then(function(data) {
 //ID Selected - Option Changed Event
 //------------------------------------------------------------------------------
 function optionChanged (select_value) {
-    alert ("The selected option is " + select_value);
+    //alert ("The selected option is " + select_value);
     d3.json("samples.json").then(function(data) {
       let info_id = "sample-metadata";
       let metaData = data['metadata'];
@@ -39,7 +39,7 @@ function buildPlot(data_labels, data_values, text_values) {
   var top_values, top_labels, top_text_values;
   var otu_ids = data_labels.slice();
 
-  var myText = 'My text';
+  var myText = 'Belly Button Biodiversity';
   for(var i = 0; i < otu_ids.length; i += 1){
     otu_ids[i] = 'OTU ' + otu_ids[i];
   }
@@ -67,7 +67,7 @@ function buildPlot(data_labels, data_values, text_values) {
     x: top_values,
     y: top_labels,
     text: top_text_values,
-    hovertemplate: ' x: %{x}<br> y: %{y}<br> Placement:%{text}<br> myText: ' + myText,
+    hovertemplate: ' Sample Value: %{x}<br> otu_ids: %{y}<br> Placement:%{text}<br> Dataset: ' + myText,
     type: "bar",
     orientation: 'h'
   }];
@@ -119,7 +119,6 @@ function buildPlot(data_labels, data_values, text_values) {
     mode: "gauge+number",
     value: speed_value,
     title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
-
     gauge: {
       axis: { range: [null, 9], tickwidth: 1, tickcolor: "skyblue" },
       bar: { color: "navy" },
@@ -156,19 +155,28 @@ function buildPlot(data_labels, data_values, text_values) {
 //------------------------------------------------------------------------------
 function buildTable(dates) {
   var table = d3.select("#summary-table");
+  var thead = table.select("thead");
   var tbody = table.select("tbody");
-  // remove any children from the tbody to
+  // remove any children from the tbody and thead
+  thead.html("");
   tbody.html("");
 
   var trow, idx, key, dict_length;
   dict_length = Object.keys(dates).length
   console.log (dates, dict_length);
 
+  trow = tbody.append("tr");
+  trow.append("th").text("DEMOGRAPHIC INFO");
+  for (idx = 0; idx < dict_length; idx++) {
+    key = Object.keys(dates)[idx].toUpperCase();
+    trow.append("th").text(key);
+  }
+
+  trow = tbody.append("tr");
+  trow.append("td").text("Belly Button Data Set 1");
   for (idx = 0; idx < dict_length; idx++) {
     key = Object.keys(dates)[idx];
     value = dates[key];
-    trow = tbody.append("tr");
-    trow.append("td").text(key);
     trow.append("td").text(value);
   }
 }

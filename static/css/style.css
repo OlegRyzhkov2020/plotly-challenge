@@ -27,26 +27,6 @@ body {
   overflow: auto;
 }
 
-/* The footer is positioned at the bottom of the page */
-.footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  min-height: 100px;
-  background: #4e5d6c;
-}
-
-/* The code styles the text at the bottom of the footer */
-.footer > .bottom {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 5px;
-  background: #1b3146;
-}
-
 .navbar {
   padding: 5px;
   margin: 0;
@@ -86,15 +66,20 @@ button
 }
 
 select {
-  margin-top: 5px;
+  margin-top: 10px;
   width: 11%;
   padding: 4px;
   color: #8e979f;
   outline: none;
 }
 
-#table-area th {
+#table-area th td {
   text-align: center;
+}
+
+#table-area th {
+  background-color: navy;
+  color: white;
 }
 
 #table-area th:first-child,
@@ -113,33 +98,9 @@ select {
 .row h4 {
   color: navy;
   font-weight: bold;
+  font-size: 30px;
 }
 
-/* The styles for the parallax */
-.hero {
-  position: relative;
-  height: 250px;
-  padding: 20px;
-  margin: 0;
-  background: black;
-  background-image: url("../images/nasa.jpg");
-  background-attachment: fixed;
-  background-position: bottom center;
-  background-size: cover;
-}
-
-.hero h1 {
-  margin-top: 100px;
-  font-size: 0.1rem;
-  animation: title 1.2s forwards linear;
-}
-
-.hero p {
-  font-size: 2rem;
-  opacity: 0;
-  animation: subtitle 1.2s forwards linear;
-  animation-delay: 1.2s;
-}
 
 /* input placeholder color changes */
 .form-control::-webkit-input-placeholder {
@@ -209,41 +170,3 @@ select {
     text-align: center;
     content: attr(data-th);
   }
-
-  .hero h1 {
-    animation: smaller-title 1.2s forwards linear;
-  }
-}
-
-/* keyframe animations which will be used to animate the title */
-@keyframes title {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    font-size: 7.5rem;
-    opacity: 1;
-  }
-}
-
-@keyframes smaller-title {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    font-size: 5.5rem;
-    opacity: 1;
-  }
-}
-
-@keyframes subtitle {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
