@@ -13,7 +13,7 @@ The belly button is one of the habitats closest to us, and yet it remains relati
 
 ## Main Dashboard
 
-![dashboard_slide](Images/bio_dashboard.png)
+![dashboard_slide](Images/biodashboard.png)
 
 ## Dataset Exploring
 
