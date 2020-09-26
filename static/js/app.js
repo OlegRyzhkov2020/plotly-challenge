@@ -9,7 +9,7 @@ d3.json("samples.json").then(function(data) {
   initDropdownList(sel_id, metaData);
   buildTable(metaData[0]);
   buildPlot(samplesData[0]['otu_ids'], samplesData[0]['sample_values'],
-            samplesData[0]['otu_labels']);
+            samplesData[0]['otu_labels'], metaData[0]['wfreq']);
 });
 //------------------------------------------------------------------------------
 //ID Selected - Option Changed Event
@@ -24,10 +24,10 @@ function optionChanged (select_value) {
       //console.log(metaData, samplesData);
       for (i in metaData) {
           if (metaData[i]['id'] == select_value) {
+              //console.log (metaData[i]['id'], metaData[i]['wfreq']);
               buildTable(metaData[i]);
               buildPlot(samplesData[i]['otu_ids'], samplesData[i]['sample_values'],
-                        samplesData[i]['otu_labels']);
-              //console.log (id_value, metaData[i]['id'], metaData[i]['ethnicity'], metaData[i]['gender']);
+                        samplesData[i]['otu_labels'], metaData[i]['wfreq']);
               }
           }
       });
@@ -35,7 +35,7 @@ function optionChanged (select_value) {
 //------------------------------------------------------------------------------
 //Building Plot Function
 //------------------------------------------------------------------------------
-function buildPlot(data_labels, data_values, text_values) {
+function buildPlot(data_labels, data_values, text_values, freq_value) {
   var top_values, top_labels, top_text_values;
   var otu_ids = data_labels.slice();
 
@@ -112,12 +112,11 @@ function buildPlot(data_labels, data_values, text_values) {
   //------------------------------------------------------------------------------
   //Gauge Chart
   //------------------------------------------------------------------------------
-  let speed_value = data_values.length/100*10;
   var gauge_data = [
   {
     type: "indicator",
     mode: "gauge+number",
-    value: speed_value,
+    value: freq_value,
     title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
     gauge: {
       axis: { range: [null, 9], tickwidth: 1, tickcolor: "skyblue" },
