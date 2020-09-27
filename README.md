@@ -11,7 +11,11 @@ The belly button is one of the habitats closest to us, and yet it remains relati
 ![GitHub followers](https://img.shields.io/github/followers/OlegRyzhkov2020?label=Follow&style=social)
 
 
-## Main Dashboard
+## Dashboard (Gauge chart type: scatter)
+
+![dashboard_slide](Images/biodashboard1.png)
+
+## Dashboard (Gauge chart type: indicator)
 
 ![dashboard_slide](Images/biodashboard.png)
 

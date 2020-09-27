@@ -112,41 +112,14 @@ function buildPlot(data_labels, data_values, text_values, freq_value) {
   //------------------------------------------------------------------------------
   //Gauge Chart
   //------------------------------------------------------------------------------
-  var gauge_data = [
-  {
-    type: "indicator",
-    mode: "gauge+number",
-    value: freq_value,
-    title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
-    gauge: {
-      axis: { range: [null, 9], tickwidth: 1, tickcolor: "skyblue" },
-      bar: { color: "navy" },
-      bgcolor: "white",
-      borderwidth: 2,
-      bordercolor: "gray",
-      steps: [
-        { range: [0, 2], color: "aliceblue" },
-        { range: [2, 4], color: "lavender" },
-        { range: [4, 8], color: "powderblue" }
-      ],
-      threshold: {
-        line: { color: "red", width: 4 },
-        thickness: 0.75,
-        value: 9
-      }
-      }
-    }
-  ];
+  gaugeChart_scatter(freq_value);
+  let last_view = false;
 
-  var gauge_layout = {
-    width: 450,
-    height: 420,
-    margin: { t: 25, r: 25, l: 25, b: 25 },
-    paper_bgcolor: "white",
-    font: { color: "darkblue", family: "Arial" }
+  if (document.getElementById('gauge-button').clicked == true) {
+    console.log("last view: ", last_view, "check status: true");
+    // gaugeChart_indicator(freq_value);
+    //gaugeChart_scatter(freq_value);
   };
-
-  Plotly.newPlot('gauge', gauge_data, gauge_layout);
 
 };
 //------------------------------------------------------------------------------

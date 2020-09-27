@@ -9,6 +9,12 @@ body {
   padding: 0;
   margin: 0;
 }
+button {
+  background-color: darkred !important;
+  color: white !important;
+  margin-left: 370px !important;
+  margin-top: 40px !important;
+}
 
 .table-wrap {
   height: 330px;
@@ -16,9 +22,9 @@ body {
 }
 
 .chart {
-  color: white !important;
+    max-height: calc(200px + 90px) !important;
+    overflow:hidden;
 }
-
 /* The wrapper contains all of the page's content besides the footer, which is pushed to the bottom of the page */
 .wrapper {
   position: relative;
