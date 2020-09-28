@@ -33,7 +33,7 @@ function gaugeChart_indicator(value) {
     height: 420,
     margin: { t: 25, r: 25, l: 25, b: 25 },
     paper_bgcolor: "white",
-    font: { color: "darkblue", family: "Arial" }
+    font: { color: "grey", family: "Arial", size: 18 }
   };
 
   Plotly.newPlot('gauge', gauge_data, gauge_layout);
@@ -92,7 +92,7 @@ function gaugeChart_scatter(value) {
       }],
     height: 550,
     width: 450,
-    title: { text: "Belly Button Washing Frequency", font: { size: 20 } },
+    title: { text: "Belly Button Washing Frequency", font: { color: "grey", family: "Arial", size: 18 } },
     xaxis: {zeroline:false, showticklabels:false,
                showgrid: false, range: [-1, 1]},
     yaxis: {zeroline:false, showticklabels:false,

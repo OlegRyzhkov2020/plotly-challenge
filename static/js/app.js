@@ -1,20 +1,30 @@
 //------------------------------------------------------------------------------
 //Explore dataset for Initial WebPage
 //------------------------------------------------------------------------------
+var gauge_button = true;
+var freq_value = 0;
+initPage (0);
+//------------------------------------------------------------------------------
+//Initiate Dashboard with determined id number
+//------------------------------------------------------------------------------
+function initPage (init_id) {
 d3.json("samples.json").then(function(data) {
   let sel_id = "selDataset";
   let metaData = data['metadata'];
   let samplesData = data['samples'];
+  freq_value = metaData[init_id]['wfreq']
   console.log(samplesData);
   initDropdownList(sel_id, metaData);
-  buildTable(metaData[0]);
-  buildPlot(samplesData[0]['otu_ids'], samplesData[0]['sample_values'],
-            samplesData[0]['otu_labels'], metaData[0]['wfreq']);
-});
+  buildTable(metaData[init_id]);
+  buildPlot(samplesData[init_id]['otu_ids'], samplesData[init_id]['sample_values'],
+            samplesData[init_id]['otu_labels']);
+  gaugeChart();
+})
+};
 //------------------------------------------------------------------------------
 //ID Selected - Option Changed Event
 //------------------------------------------------------------------------------
-function optionChanged (select_value) {
+function optionChanged (select_value ) {
     //alert ("The selected option is " + select_value);
     d3.json("samples.json").then(function(data) {
       let info_id = "sample-metadata";
@@ -24,18 +34,34 @@ function optionChanged (select_value) {
       //console.log(metaData, samplesData);
       for (i in metaData) {
           if (metaData[i]['id'] == select_value) {
-              //console.log (metaData[i]['id'], metaData[i]['wfreq']);
               buildTable(metaData[i]);
               buildPlot(samplesData[i]['otu_ids'], samplesData[i]['sample_values'],
-                        samplesData[i]['otu_labels'], metaData[i]['wfreq']);
+                        samplesData[i]['otu_labels']);
+              freq_value = metaData[i]['wfreq'];
+              if (gauge_button == false) { gauge_button = true }
+              else {gauge_button = false};
+              gaugeChart ();
               }
           }
       });
 };
 //------------------------------------------------------------------------------
-//Building Plot Function
+//Gauge Button is Pushed - Change Gauge Type Event
 //------------------------------------------------------------------------------
-function buildPlot(data_labels, data_values, text_values, freq_value) {
+function gaugeChart () {
+    if (gauge_button == true) {
+      gaugeChart_scatter(freq_value);
+      gauge_button = false;
+    }
+    else {
+      gaugeChart_indicator(freq_value);
+      gauge_button = true;
+    }
+};
+//------------------------------------------------------------------------------
+//Building Plot Function - Bar and Bubble Charts
+//------------------------------------------------------------------------------
+function buildPlot(data_labels, data_values, text_values) {
   var top_values, top_labels, top_text_values;
   var otu_ids = data_labels.slice();
 
@@ -109,18 +135,6 @@ function buildPlot(data_labels, data_values, text_values, freq_value) {
   };
 
   Plotly.newPlot('bubble', bubble_data, bubble_layout);
-  //------------------------------------------------------------------------------
-  //Gauge Chart
-  //------------------------------------------------------------------------------
-  gaugeChart_scatter(freq_value);
-  let last_view = false;
-
-  if (document.getElementById('gauge-button').clicked == true) {
-    console.log("last view: ", last_view, "check status: true");
-    // gaugeChart_indicator(freq_value);
-    //gaugeChart_scatter(freq_value);
-  };
-
 };
 //------------------------------------------------------------------------------
 //Demographic Info Table
